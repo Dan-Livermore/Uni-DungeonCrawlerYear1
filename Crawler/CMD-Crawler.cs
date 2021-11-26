@@ -66,6 +66,7 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Your Code here
+            Console.WriteLine("Game Start:");
             if (input == "InitializeMap")
                 ProcessUserInput("Simple.Map");
             if (input == "Play")
@@ -138,29 +139,17 @@ namespace Crawler
             bool initSuccess = false;
 
             // Your code here
-            string[] Text = { "" };
-            var Map = new List<string>();
-            string path = Path.Combine(Environment.CurrentDirectory, mapName);
-            try
-            {
-                Text = File.ReadAllLines(path);
-                for (int i = 0; i < 11; i++)
-                {
-                    if (Text[i] != null)
-                        Map.Add(Text[i]);
-                }
-                Text = Map.ToArray();
-                initSuccess = true;
-            }
-            catch (FileNotFoundException)
-            {
-                initSuccess = false;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                initSuccess = false;
-            }
-
+            string[] Map;
+            //var Map = new List<string>();
+            string path = Environment.CurrentDirectory + @"\maps\" + mapName;
+            Map = File.ReadAllLines(path);
+            for (int i = 0; i < Map.Length; i++)
+                Console.WriteLine(Map[i]);
+            //{
+            //    if (Text[i] != null)
+            //        Map.Add(Text[i]);
+            //}
+            initSuccess = true;
             return initSuccess;
         }
 
@@ -201,7 +190,7 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            int[] position = { -1, -1 };
+            int[] position = { 0, 0 }; // { -1, -1 }; Brute Forced
 
 
             return position;
