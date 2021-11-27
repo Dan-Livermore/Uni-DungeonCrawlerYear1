@@ -180,8 +180,9 @@ namespace Crawler
 
             // Your code here
 
+            //again unneccessary
 
-            return map;
+            return originalMap;
         }
 
         /**
@@ -191,17 +192,20 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            int[] position = { -1, -1 }; // { 0, 8 }; Brute Forced
-            //for (int x = 0; x < 10; x++)
-            //{
-            //    for (int y = 0; y < 10; y++)
-            //    {
-                    //if (position[] == "S")
-                        //return position;
-                    //if position in map == @ or S then return [8][1]
-                    // position = {y,x};
-                //}
-            //}
+            int[] position = { -1, -1 }; 
+            for (int x = 0; x < 31; x++)            // this is brute forced and will be needed for the advanced map
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    if (originalMap[y][x] == 'S')
+                    {
+                        position[0] = y;
+                        position[1] = x;
+                        y = 10;
+                        x = 31;
+                    }
+                }
+            }
             return position;
         }
 
