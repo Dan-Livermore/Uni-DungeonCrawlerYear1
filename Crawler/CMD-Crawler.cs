@@ -31,7 +31,7 @@ namespace Crawler
         /// <summary>
         /// Use this object member to store the loaded map.
         /// </summary>
-        private char[][] originalMap = new char[0][];
+        private char[][] originalMap = new char[10][];
 
 
         /**
@@ -66,13 +66,14 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Your Code here
-            Console.WriteLine("Game Start:");
-            if (input == "InitializeMap")
-                ProcessUserInput("Simple.Map");
-            if (input == "Play")
+            while (active == true)
             {
-                Update(true);
+                if (input == "InitializeMap")
+                    ProcessUserInput("Simple.Map");
+                if (input == "Play")
+                    Update(true);
             }
+            
         }
 
         /**
@@ -109,6 +110,7 @@ namespace Crawler
 
             // Your code here
 
+
             return true;
         }
         /**
@@ -139,16 +141,14 @@ namespace Crawler
             bool initSuccess = false;
 
             // Your code here
-            string[] Map;
-            //var Map = new List<string>();
+            string[] Text;
             string path = Environment.CurrentDirectory + @"\maps\" + mapName;
-            Map = File.ReadAllLines(path);
-            for (int i = 0; i < Map.Length; i++)
-                Console.WriteLine(Map[i]);
-            //{
-            //    if (Text[i] != null)
-            //        Map.Add(Text[i]);
-            //}
+            Text = File.ReadAllLines(path);
+            for (int y = 0; y < 10; y++)
+            {
+                    originalMap[y] = Text[y].ToCharArray();
+            }
+
             initSuccess = true;
             return initSuccess;
         }
@@ -164,8 +164,9 @@ namespace Crawler
 
             // Your code here
 
+            //This new char array is not needed as the map is read in the Initialize Map method.
 
-            return map;
+            return originalMap;
         }
 
         /*
@@ -190,9 +191,17 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            int[] position = { 0, 0 }; // { -1, -1 }; Brute Forced
-
-
+            int[] position = { -1, -1 }; // { 0, 8 }; Brute Forced
+            //for (int x = 0; x < 10; x++)
+            //{
+            //    for (int y = 0; y < 10; y++)
+            //    {
+                    //if (position[] == "S")
+                        //return position;
+                    //if position in map == @ or S then return [8][1]
+                    // position = {y,x};
+                //}
+            //}
             return position;
         }
 
@@ -206,6 +215,8 @@ namespace Crawler
             int action = 0;
 
             // Your code here
+            //if (action = ((int)PlayerActions.NOTHING))
+                //action = 0;
 
             return action;
         }
