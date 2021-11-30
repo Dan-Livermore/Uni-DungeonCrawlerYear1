@@ -31,7 +31,7 @@ namespace Crawler
         /// <summary>
         /// Use this object member to store the loaded map.
         /// </summary>
-        private char[][] originalMap = new char[10][];
+        private char[][] originalMap = new char[10][];                                  //This is the y axis for the simple map
 
 
         /**
@@ -66,13 +66,13 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Your Code here
-            while (active == true)
-            {
-                if (input == "InitializeMap")
-                    ProcessUserInput("Simple.Map");
-                if (input == "Play")
-                    Update(true);
-            }
+            ////while (active == true)
+            ////{
+            ////    if (input == "InitializeMap")
+            ////        ProcessUserInput("Simple.Map");
+            ////    if (input == "Play")
+            ////        Update(true);
+            ////}
             
         }
 
@@ -144,7 +144,7 @@ namespace Crawler
             string[] Text;
             string path = Environment.CurrentDirectory + @"\maps\" + mapName;
             Text = File.ReadAllLines(path);
-            for (int y = 0; y < 10; y++)
+            for (int y = 0; y < Text.Length; y++)
             {
                     originalMap[y] = Text[y].ToCharArray();
             }
@@ -192,17 +192,30 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            int[] position = { -1, -1 }; 
+            int[] position = { -1, -1 };
+            bool Found = false;
             for (int x = 0; x < 31; x++)            // this is brute forced and will be needed for the advanced map
             {
                 for (int y = 0; y < 10; y++)
                 {
-                    if (originalMap[y][x] == 'S')
+                    if (originalMap[y][x] == '@')
                     {
                         position[0] = y;
                         position[1] = x;
+                        Found = true;
                         y = 10;
                         x = 31;
+                    }
+                    if (Found == false)
+                    {
+                        if (originalMap[y][x] == 'S')
+                        {
+                            position[0] = y;
+                            position[1] = x;
+                            Found = true;
+                            y = 10;
+                            x = 31;
+                        }
                     }
                 }
             }
