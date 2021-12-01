@@ -31,7 +31,9 @@ namespace Crawler
         /// <summary>
         /// Use this object member to store the loaded map.
         /// </summary>
-        private char[][] originalMap = new char[10][];                                  //This is the y axis for the simple map
+        private char[][] originalMap = new char[0][];                                  //This is the y axis for the simple map
+        private char[][] Map = new char[0][];
+        int[] position = { 0, 0 };
 
 
         /**
@@ -71,6 +73,8 @@ namespace Crawler
             {
                 ProcessUserInput("Simple.Map");
             }
+            if (input == "play")
+                active = true;
                         ////while (active == true)
             ////{
             ////    if (input == "InitializeMap")
@@ -149,12 +153,15 @@ namespace Crawler
             string[] Text;
             string path = Environment.CurrentDirectory + @"\maps\" + mapName;
             Text = File.ReadAllLines(path);
+            char[][] newMap = new char[Text.Length][];
             for (int y = 0; y < Text.Length; y++)
             {
-                    originalMap[y] = Text[y].ToCharArray();
+                    newMap[y] = Text[y].ToCharArray();
             }
 
             initSuccess = true;
+            originalMap = newMap;
+            Map = newMap;
             return initSuccess;
         }
 
@@ -204,29 +211,37 @@ namespace Crawler
         {
             int[] position = { -1, -1 };
             bool Found = false;
-            for (int x = 0; x < 31; x++)            // this is brute forced and will be needed for the advanced map
+            try
             {
-                for (int y = 0; y < 10; y++)
+                for (int x = 0; x < 31; x++)            // this is brute forced and will be needed for the advanced map
                 {
-                    if (originalMap[y][x] == '@')
+                    for (int y = 0; y < 10; y++)
                     {
-                        position[0] = y;
-                        position[1] = x;
-                        Found = true;
-                        y = 10;
-                        x = 31;
-                    }
-                    if (Found == false)
-                    {
-                        if (originalMap[y][x] == 'S')
+                        if (originalMap[y][x] == '@')
                         {
                             position[0] = y;
                             position[1] = x;
+                            Found = true;
                             y = 10;
                             x = 31;
                         }
+                        if (Found == false)
+                        {
+                            if (originalMap[y][x] == 'S')
+                            {
+                                position[0] = y;
+                                position[1] = x;
+                                y = 10;
+                                x = 31;
+                            }
+                        }
                     }
                 }
+            }
+            catch (NullReferenceException)
+            {
+                position[0] = 0;
+                position[1] = 0;
             }
             return position;
         }
@@ -252,6 +267,8 @@ namespace Crawler
         {
             bool running = false;
             // Your code here 
+            if (active == true)
+                running = true;
 
             return running;
         }
