@@ -33,7 +33,7 @@ namespace Crawler
         /// </summary>
         private char[][] originalMap = new char[0][];                                  //This is the y axis for the simple map
         private char[][] Map = new char[0][];
-        int[] position = { 0, 0 };
+        private int[] position = { 0, 0 };
 
 
         /**
@@ -71,7 +71,7 @@ namespace Crawler
 
             if (input == "load Simple.map")
             {
-                ProcessUserInput("Simple.Map");
+                InitializeMap("Simple.Map");
             }
             if (input == "play")
                 active = true;
@@ -172,17 +172,25 @@ namespace Crawler
          */
         public char[][] GetOriginalMap()
         {
-            char[][] map = new char[10][];
-
             // Your code here
+            ////int length = 0;
+            ////try
+            ////{
+            ////    length = originalMap.Length;
+            ////}
+            ////catch
+            ////{
+            ////    InitializeMap("Simple.Map");
+            ////}
+            ////char[][] map = new char[length][];
 
-            //This new char array is not needed as the map is read in the Initialize Map method.
-            bool success = InitializeMap("Simple.Map");
-            for (int i = 0; i < 10; i++)
-            {
-                map[i] = originalMap[i];
-            }
-           
+            //////This new char array is not needed as the map is read in the Initialize Map method.
+            ////for (int i = 0; i < length; i++)
+            ////{
+            ////    map[i] = originalMap[i];
+            ////}
+
+            char[][] map = originalMap;
             return map;
         }
 
@@ -209,13 +217,13 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            int[] position = { -1, -1 };
+            
             bool Found = false;
             try
             {
-                for (int x = 0; x < 31; x++)            // this is brute forced and will be needed for the advanced map
+                for (int x = 0; x < Map.Length-1; x++)            // this is brute forced and will be needed for the advanced map
                 {
-                    for (int y = 0; y < 10; y++)
+                    for (int y = 0; y < Map[x].Length-1; y++)
                     {
                         if (originalMap[y][x] == '@')
                         {
@@ -238,10 +246,10 @@ namespace Crawler
                     }
                 }
             }
-            catch (NullReferenceException)
+            catch 
             {
-                position[0] = 0;
-                position[1] = 0;
+                int[] position = { 0, 0 };
+                return position;
             }
             return position;
         }
