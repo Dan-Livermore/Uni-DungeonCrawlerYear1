@@ -68,21 +68,21 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Your Code here
-
-            if (input == "load Simple.map")
-            {
+            input = input.ToLower();
+            if (input == "load simple.map")
                 InitializeMap("Simple.Map");
-            }
             if (input == "play")
                 active = true;
-                        ////while (active == true)
-            ////{
-            ////    if (input == "InitializeMap")
-            ////        ProcessUserInput("Simple.Map");
-            ////    if (input == "Play")
-            ////        Update(true);
-            ////}
-            
+            if (input == "w")
+                action = PlayerActions.NORTH;
+            if (input == "a")
+                action = PlayerActions.WEST;
+            if (input == "s")
+                action = PlayerActions.SOUTH;
+            if (input == "d")
+                action = PlayerActions.EAST;
+
+
         }
 
         /**
@@ -100,8 +100,7 @@ namespace Crawler
             bool working = false;
 
             // Your code here
-
-            return working;
+                return working;
         }
 
         /**
