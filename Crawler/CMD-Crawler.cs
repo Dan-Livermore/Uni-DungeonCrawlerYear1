@@ -66,7 +66,12 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Your Code here
-            ////while (active == true)
+
+            if (input == "load Simple.map")
+            {
+                ProcessUserInput("Simple.Map");
+            }
+                        ////while (active == true)
             ////{
             ////    if (input == "InitializeMap")
             ////        ProcessUserInput("Simple.Map");
@@ -160,13 +165,18 @@ namespace Crawler
          */
         public char[][] GetOriginalMap()
         {
-            char[][] map = new char[0][];
+            char[][] map = new char[10][];
 
             // Your code here
 
             //This new char array is not needed as the map is read in the Initialize Map method.
-
-            return originalMap;
+            bool success = InitializeMap("Simple.Map");
+            for (int i = 0; i < 10; i++)
+            {
+                map[i] = originalMap[i];
+            }
+           
+            return map;
         }
 
         /*
@@ -212,7 +222,6 @@ namespace Crawler
                         {
                             position[0] = y;
                             position[1] = x;
-                            Found = true;
                             y = 10;
                             x = 31;
                         }
