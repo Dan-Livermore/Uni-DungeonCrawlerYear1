@@ -73,14 +73,18 @@ namespace Crawler
                 InitializeMap("Simple.Map");
             if (input == "play")
                 active = true;
-            if (input == "w")
-                action = PlayerActions.NORTH;
-            if (input == "a")
-                action = PlayerActions.WEST;
-            if (input == "s")
-                action = PlayerActions.SOUTH;
-            if (input == "d")
-                action = PlayerActions.EAST;
+            if (active == true)
+            {
+                if (input == "w")
+                    action = PlayerActions.NORTH;
+                if (input == "a")
+                    action = PlayerActions.WEST;
+                if (input == "s")
+                    action = PlayerActions.SOUTH;
+                if (input == "d")
+                    action = PlayerActions.EAST;
+            }
+            
 
 
         }
@@ -100,6 +104,13 @@ namespace Crawler
             bool working = false;
 
             // Your code here
+            //if (active == true)
+            //{
+            //    if (PlayerActions. == 0)
+            //    {
+
+            //    }
+            //}
                 return working;
         }
 
@@ -117,7 +128,10 @@ namespace Crawler
 
 
             // Your code here
-
+            for (int i =0; i < Map.Length; i++)
+            {
+                Console.WriteLine(Map[i]);
+            }
 
             return true;
         }
@@ -216,40 +230,29 @@ namespace Crawler
          */
         public int[] GetPlayerPosition()
         {
-            
-            bool Found = false;
-            try
-            {
-                for (int x = 0; x < Map.Length-1; x++)            // this is brute forced and will be needed for the advanced map
+            //try
+            //{
+                for (int y = 0; y < Map.Length-1; y++)            // this is brute forced and will be needed for the advanced map
                 {
-                    for (int y = 0; y < Map[x].Length-1; y++)
+                    for (int x = 0; y < Map[0].Length-1; y++) // Fails if put y as the index of Map for the last one because sometimes its 35 not 31
                     {
-                        if (originalMap[y][x] == '@')
+                        if (Map[y][x] == 'S')
                         {
                             position[0] = y;
                             position[1] = x;
-                            Found = true;
+                            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            Map[y][x] = '@';
                             y = 10;
                             x = 31;
                         }
-                        if (Found == false)
-                        {
-                            if (originalMap[y][x] == 'S')
-                            {
-                                position[0] = y;
-                                position[1] = x;
-                                y = 10;
-                                x = 31;
-                            }
-                        }
                     }
                 }
-            }
-            catch 
-            {
-                int[] position = { 0, 0 };
-                return position;
-            }
+            //}
+            //catch
+            //{
+            //    position[0] = 9;
+            //    position[1] = 6;
+            //}
             return position;
         }
 
