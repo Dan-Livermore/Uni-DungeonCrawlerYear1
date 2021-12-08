@@ -27,6 +27,7 @@ namespace Crawler
          * tracks if the game is running
          */
         private bool active = false;
+        private bool working = false;
 
         /// <summary>
         /// Use this object member to store the loaded map.
@@ -44,6 +45,7 @@ namespace Crawler
          * Return the input as string to be further processed
          * 
          */
+        ///<summary> Takes the users input from keyboard until they press enter and returns it</summary>
         private string ReadUserInput()
         {
             string inputRead = string.Empty;
@@ -71,8 +73,6 @@ namespace Crawler
             input = input.ToLower();
             if (input == "load simple.map")
                 InitializeMap("Simple.Map");
-            if (input == "play")
-                active = true;
             if (active == true)
             {
                 if (input == "w")
@@ -84,7 +84,12 @@ namespace Crawler
                 if (input == "d")
                     action = PlayerActions.EAST;
             }
-            
+            if (input == "play")
+            {
+                if (active != true)
+                    active = true;
+            }
+                
 
 
         }
@@ -101,17 +106,36 @@ namespace Crawler
          */
         public bool Update(bool active)
         {
-            bool working = false;
+            //bool working = false;
 
             // Your code here
-            //if (active == true)
-            //{
-            //    if (PlayerActions. == 0)
-            //    {
+            if (active == true)
+            {
+                if (action == PlayerActions.NORTH)
+                {
+                    position[0] += 1;
+                }
+                if (action == PlayerActions.SOUTH)
+                {
+                    position[0] -= 1;
+                }
+                if (action == PlayerActions.WEST)
+                {
+                    position[1] -= 1;
+                }
+                if (action == PlayerActions.EAST)
+                {
 
-            //    }
-            //}
-                return working;
+
+                    char current = Map[position[0]][position[1]];
+                    char next = Map[position[0]][position[1] + 1];
+                    Map[position[0]][position[1] + 1] = current;
+                    Map[position[0]][position[1]] = next;
+                    position[1] += 1;
+                }
+
+            }
+            return working;
         }
 
         /**
@@ -234,9 +258,9 @@ namespace Crawler
             //{
                 for (int y = 0; y < Map.Length-1; y++)            // this is brute forced and will be needed for the advanced map
                 {
-                    for (int x = 0; y < Map[0].Length-1; y++) // Fails if put y as the index of Map for the last one because sometimes its 35 not 31
-                    {
-                        if (Map[y][x] == 'S')
+                    for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
+                {
+                        if (Map[y][x] == 'S' || Map[y][x] == '@')
                         {
                             position[0] = y;
                             position[1] = x;
