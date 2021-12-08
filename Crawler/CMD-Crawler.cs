@@ -92,11 +92,7 @@ namespace Crawler
                     working = true;
                 }
                 if (active == true && working == true)
-                {
                     action = PlayerActions.NOTHING;
-                    active = true;
-                    working = true;
-                }
             }
         }
 
@@ -119,27 +115,39 @@ namespace Crawler
             {
                 if (action == PlayerActions.NORTH)
                 {
-                    Map[position[0]][position[1]] = '-';
-                    position[0] -= 1;
-                    Map[position[0]][position[1]] = '@';
+                    if(Map[position[0]-1][position[1]] != '#')
+                    {
+                        Map[position[0]][position[1]] = '-';
+                        position[0] -= 1;
+                        Map[position[0]][position[1]] = '@';
+                    }
                 }
                 if (action == PlayerActions.SOUTH)
                 {
-                    Map[position[0]][position[1]] = '-';
-                    position[0] += 1;
-                    Map[position[0]][position[1]] = '@';
+                    if (Map[position[0]+1][position[1]] != '#')
+                    {
+                        Map[position[0]][position[1]] = '-';
+                        position[0] += 1;
+                        Map[position[0]][position[1]] = '@';
+                    }
                 }
                 if (action == PlayerActions.WEST)
                 {
-                    Map[position[0]][position[1]] = '-';
-                    position[1] -= 1;
-                    Map[position[0]][position[1]] = '@';
+                    if (Map[position[0]][position[1]-1] != '#')
+                    {
+                        Map[position[0]][position[1]] = '-';
+                        position[1] -= 1;
+                        Map[position[0]][position[1]] = '@';
+                    }
                 }
                 if (action == PlayerActions.EAST)
                 {
-                    Map[position[0]][position[1]] = '-';
-                    position[1] += 1;
-                    Map[position[0]][position[1]] = '@';
+                    if (Map[position[0]][position[1]+1] != '#')
+                    {
+                        Map[position[0]][position[1]] = '-';
+                        position[1] += 1;
+                        Map[position[0]][position[1]] = '@';
+                    }
                 }
 
             }
@@ -260,7 +268,8 @@ namespace Crawler
          * 
          * The first value is the y coordinate and the second is the x coordinate on the map
          */
-        public int[] GetPlayerPosition()
+        public int[] 
+            GetPlayerPosition()
         {
             //try
             //{
