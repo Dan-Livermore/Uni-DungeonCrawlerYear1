@@ -86,13 +86,13 @@ namespace Crawler
             }
             if (input == "play")
             {
+                if (active == true && working == true)
+                    action = PlayerActions.NOTHING;
                 if (active == false && working == false)
                 {
                     active = true;
                     working = true;
                 }
-                if (active == true && working == true)
-                    action = PlayerActions.NOTHING;
             }
         }
 
@@ -119,8 +119,14 @@ namespace Crawler
                     {
                         Map[position[0]][position[1]] = '-';
                         position[0] -= 1;
-                        Map[position[0]][position[1]] = '@';
-                    }
+                        if (Map[position[0]][position[1]] == 'X')
+                        {
+                            this.active = false;
+                        }
+                        else
+                        {
+                            Map[position[0]][position[1]] = '@';
+                        }                    }
                 }
                 if (action == PlayerActions.SOUTH)
                 {
@@ -128,7 +134,14 @@ namespace Crawler
                     {
                         Map[position[0]][position[1]] = '-';
                         position[0] += 1;
-                        Map[position[0]][position[1]] = '@';
+                        if (Map[position[0]][position[1]] == 'X')
+                        {
+                            this.active = false;
+                        }
+                        else
+                        {
+                            Map[position[0]][position[1]] = '@';
+                        }
                     }
                 }
                 if (action == PlayerActions.WEST)
@@ -137,7 +150,14 @@ namespace Crawler
                     {
                         Map[position[0]][position[1]] = '-';
                         position[1] -= 1;
-                        Map[position[0]][position[1]] = '@';
+                        if (Map[position[0]][position[1]] == 'X')
+                        {
+                            this.active = false;
+                        }
+                        else
+                        {
+                            Map[position[0]][position[1]] = '@';
+                        }
                     }
                 }
                 if (action == PlayerActions.EAST)
@@ -146,7 +166,15 @@ namespace Crawler
                     {
                         Map[position[0]][position[1]] = '-';
                         position[1] += 1;
-                        Map[position[0]][position[1]] = '@';
+                        if (Map[position[0]][position[1]] == 'X')
+                        {
+                            this.active = false;
+                        }
+                        else
+                        {
+                            Map[position[0]][position[1]] = '@';
+                        }
+                        
                     }
                 }
 
@@ -207,12 +235,20 @@ namespace Crawler
             string path = Environment.CurrentDirectory + @"\maps\" + mapName;
             Text = File.ReadAllLines(path);
             char[][] newMap = new char[Text.Length][];
-            for (int y = 0; y < Text.Length; y++)
-                    newMap[y] = Text[y].ToCharArray();
 
-            initSuccess = true;
+            for (int y = 0; y < Text.Length; y++)
+            {
+                newMap[y] = Text[y].ToCharArray();
+            }
             originalMap = newMap;
-            Map = newMap;
+            //char[][] newMap2 = new char[Text.Length][];
+
+            //for (int y = 0; y < Text.Length; y++)
+            //{
+            //    newMap2[y] = Text[y].ToCharArray();
+            //}
+            Map =  newMap;
+            initSuccess = true;
 
             return initSuccess;
         }
@@ -225,23 +261,7 @@ namespace Crawler
         public char[][] GetOriginalMap()
         {
             // Your code here
-            ////int length = 0;
-            ////try
-            ////{
-            ////    length = originalMap.Length;
-            ////}
-            ////catch
-            ////{
-            ////    InitializeMap("Simple.Map");
-            ////}
-            ////char[][] map = new char[length][];
-
-            //////This new char array is not needed as the map is read in the Initialize Map method.
-            ////for (int i = 0; i < length; i++)
-            ////{
-            ////    map[i] = originalMap[i];
-            ////}
-
+           
             char[][] map = originalMap;
             return map;
         }
@@ -258,8 +278,6 @@ namespace Crawler
             // Your code here
 
             //again unneccessary
-            //if (Map[position[1]][position[0]] == '@');
-            //    originalMap[position[1]][position[0]] = 'X';
             return originalMap;
         }
 
@@ -271,9 +289,7 @@ namespace Crawler
         public int[] 
             GetPlayerPosition()
         {
-            //try
-            //{
-            for (int y = 0; y < Map.Length - 1; y++)            // this is brute forced and will be needed for the advanced map
+            for (int y = 0; y < Map.Length - 1; y++)
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
@@ -281,19 +297,13 @@ namespace Crawler
                     {
                         position[0] = y;
                         position[1] = x;
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         Map[y][x] = '@';
                         y = 10;
                         x = 31;
                     }
                 }
             }
-            //}
-            //catch
-            //{
-            //    position[0] = 9;
-            //    position[1] = 6;
-            //}
+
             return position;
         }
 
@@ -320,6 +330,8 @@ namespace Crawler
             // Your code here 
             if (active == true)
                 running = true;
+            else if (active == false)
+                running = false;
 
             return running;
         }
