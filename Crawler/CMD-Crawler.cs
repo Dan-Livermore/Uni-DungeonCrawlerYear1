@@ -17,42 +17,41 @@ namespace Crawler
      */
     public class CMDCrawler
     {
-        /**
-         * use the following to store and control the next movement of the yser
-         */
+        ///<summary>
+        ///These variables are used to track the users next input and make the code more readable.
+        ///</summary>
         public enum PlayerActions {NOTHING, NORTH, EAST, SOUTH, WEST, PICKUP, ATTACK, QUIT };
         private PlayerActions action = PlayerActions.NOTHING;
 
-        /**
-         * tracks if the game is running
-         */
+        /// <summary>
+        /// These variables prevent the game from running until it is correctly initalised.
+        /// </summary>
         private bool active = false;
         private bool working = false;
 
         /// <summary>
-        /// Use this object member to store the loaded map.
+        /// These objects will store the important global variables needed for the game to process. 
+        /// It stores a copy of the map before any changes have been made,
+        /// the map that gets updated when the player moves 
+        /// and the current position of the player.
         /// </summary>
-        private char[][] originalMap = new char[0][];                                  //This is the y axis for the simple map
+        private char[][] originalMap = new char[0][];
         private char[][] Map = new char[0][];
         private int[] position = { 0, 0 };
 
-
-        /**
-         * Reads user input from the Console
-         * 
-         * Please use and implement this method to read the user input.
-         * 
-         * Return the input as string to be further processed
-         * 
-         */
-        ///<summary> Takes the users input from keyboard until they press enter and returns it</summary>
+        ///<summary> 
+        ///Takes the users input from keyboard and returns it as a string. 
+        ///If the game hasn't started sentences can be enterred to initalise the game.
+        ///but once it has started it only accepts single inputs to improve the flow of the game.
+        ///</summary>
         private string ReadUserInput()
         {
             string inputRead = string.Empty;
-
-            // Your code here
-
-            inputRead = Console.ReadLine();
+            if (active == true && working == true)
+                inputRead = Console.ReadKey().ToString();
+            else
+                inputRead = Console.ReadLine();
+            
 
             return inputRead;
         }
@@ -69,12 +68,14 @@ namespace Crawler
          */
         public void ProcessUserInput(string input)
         {
-            // Your Code here
+            // Basic validation of input
             input = input.ToLower();
+            // Needs to load map before game loop can start
             if (input == "load simple.map")
                 InitializeMap("Simple.Map");
             if (active == true)
             {
+                // If the game has been initalized, take the users next input
                 if (input == "w")
                     action = PlayerActions.NORTH;
                 if (input == "a")
@@ -84,6 +85,7 @@ namespace Crawler
                 if (input == "d")
                     action = PlayerActions.EAST;
             }
+            // Starts game
             if (input == "play")
             {
                 if (active == true && working == true)
@@ -106,27 +108,26 @@ namespace Crawler
          * 
          * Returns true if the game could be updated and is ongoing
          */
+        ///<summary>
+        ///If the game has started, move the player character by 1 in the direction of the PLAYERACTION enum.
+        ///</summary>
         public bool Update(bool active)
         {
-            //bool working = false;
-
-            // Your code here
             if (active == true)
             {
                 if (action == PlayerActions.NORTH)
                 {
+                    // If the next space is a wall, don't move the player
                     if(Map[position[0]-1][position[1]] != '#')
                     {
                         Map[position[0]][position[1]] = '-';
                         position[0] -= 1;
+                        // If the next position is the goal, end the game
                         if (Map[position[0]][position[1]] == 'X')
-                        {
                             this.active = false;
-                        }
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }                    }
+                    }
                 }
                 if (action == PlayerActions.SOUTH)
                 {
@@ -135,13 +136,9 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[0] += 1;
                         if (Map[position[0]][position[1]] == 'X')
-                        {
                             this.active = false;
-                        }
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.WEST)
@@ -151,13 +148,9 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[1] -= 1;
                         if (Map[position[0]][position[1]] == 'X')
-                        {
                             this.active = false;
-                        }
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.EAST)
@@ -167,17 +160,12 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[1] += 1;
                         if (Map[position[0]][position[1]] == 'X')
-                        {
                             this.active = false;
-                        }
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                         
                     }
                 }
-
             }
             return working;
         }
@@ -191,17 +179,17 @@ namespace Crawler
          * 
          * The method returns true if the game is running and it can draw something, false otherwise.
         */
+        ///<summary>
+        ///Outputs the map onto the window.
+        /// </summary>
         public bool PrintMap()
         {
-
-
-            // Your code here
-            for (int i =0; i < Map.Length; i++)
+            for (int i = 0; i < Map.Length-1; i++)
             {
                 Console.WriteLine(Map[i]);
+                return true;
             }
-
-            return true;
+            return false;
         }
         /**
          * Additional Visual Output element. 
@@ -226,27 +214,25 @@ namespace Crawler
         * 
         * Create a private object variable for storing the map in Crawler and using it in the game.
         */
+
+        ///<summary>
+        ///Converts the map from the string input in the txt file into a 2-dimensional char array.
+        /// </summary>
         public bool InitializeMap(String mapName)
         {
             bool initSuccess = false;
-
-            // Your code here
             string[] Text;
+            // Finds correct directory
             string path = Environment.CurrentDirectory + @"\maps\" + mapName;
+            // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
             char[][] newMap = new char[Text.Length][];
 
             for (int y = 0; y < Text.Length; y++)
-            {
                 newMap[y] = Text[y].ToCharArray();
-            }
+            
+            // Map becomes the version that gets updated when the player moves and originalMap is a copy of the original.
             originalMap = newMap;
-            //char[][] newMap2 = new char[Text.Length][];
-
-            //for (int y = 0; y < Text.Length; y++)
-            //{
-            //    newMap2[y] = Text[y].ToCharArray();
-            //}
             Map =  newMap;
             initSuccess = true;
 
@@ -260,10 +246,7 @@ namespace Crawler
          */
         public char[][] GetOriginalMap()
         {
-            // Your code here
-           
-            char[][] map = originalMap;
-            return map;
+            return originalMap;
         }
 
         /*
@@ -286,6 +269,9 @@ namespace Crawler
          * 
          * The first value is the y coordinate and the second is the x coordinate on the map
          */
+        ///<summary>
+        ///Finds the position of the player character on the map and updates the position object varaiable.
+        /// </summary>
         public int[] 
             GetPlayerPosition()
         {
@@ -293,13 +279,13 @@ namespace Crawler
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
-                    if (Map[y][x] == 'S' || Map[y][x] == '@')
+                    if (Map[y][x] == '@' || Map[y][x] == 'S')
                     {
                         position[0] = y;
                         position[1] = x;
                         Map[y][x] = '@';
-                        y = 10;
-                        x = 31;
+                        y = Map.Length;
+                        x = Map[Map.Length].Length;
                     }
                 }
             }
@@ -315,19 +301,16 @@ namespace Crawler
         public int GetPlayerAction()
         {
             int currentaction = (int)action;
-
-            // Your code here
-            //if (action = ((int)PlayerActions.NOTHING))
-                //action = 0;
-
             return currentaction;
         }
 
-
+        /// <summary>
+        /// Checks if the game has started.
+        /// </summary>
+        /// <returns></returns>
         public bool GameIsRunning()
         {
             bool running = false;
-            // Your code here 
             if (active == true)
                 running = true;
             else if (active == false)
