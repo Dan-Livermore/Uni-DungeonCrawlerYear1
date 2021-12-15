@@ -200,7 +200,7 @@ namespace Crawler
                 Console.WriteLine(Map[i]);
                 //return true;
             }
-            return false;
+            return true;
         }
         /**
          * Additional Visual Output element. 
@@ -234,7 +234,7 @@ namespace Crawler
             bool initSuccess = false;
             string[] Text;
             // Finds correct directory
-            string path = Environment.CurrentDirectory + @"/maps/" + mapName;
+            string path = Environment.CurrentDirectory + "/maps/" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
             char[][] newMap = new char[Text.Length][];
@@ -290,7 +290,7 @@ namespace Crawler
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
-                    if (Map[y][x] == '@' || Map[y][x] == 'S')
+                    if (Map[y][x] == 'S') //(Map[y][x] == '@' ||
                     {
                         position[0] = y;
                         position[1] = x;
