@@ -26,7 +26,8 @@ namespace Crawler
         /// <summary>
         /// These variables prevent the game from running until it is correctly initalised.
         /// </summary>
-        private bool active = false;
+        private bool active = true; 
+        private bool started = false;
         private bool working = false;
 
         /// <summary>
@@ -47,11 +48,7 @@ namespace Crawler
         private string ReadUserInput()
         {
             string inputRead = string.Empty;
-            if (active == true && working == true)
-                inputRead = Console.ReadKey().ToString();
-            else
-                inputRead = Console.ReadLine();
-            
+            inputRead = Console.ReadLine();
 
             return inputRead;
         }
@@ -73,7 +70,7 @@ namespace Crawler
             // Needs to load map before game loop can start
             if (input == "load simple.map")
                 InitializeMap("Simple.Map");
-            if (active == true)
+            if (started == true)
             {
                 // If the game has been initalized, take the users next input
                 if (input == "w")
@@ -88,11 +85,12 @@ namespace Crawler
             // Starts game
             if (input == "play")
             {
-                if (active == true && working == true)
+                if (started == true && working == true)
                     action = PlayerActions.NOTHING;
-                if (active == false && working == false)
+                if (started == false && working == false)
                 {
                     active = true;
+                    started = true;
                     working = true;
                 }
             }
@@ -113,7 +111,7 @@ namespace Crawler
         ///</summary>
         public bool Update(bool active)
         {
-            if (active == true)
+            if (started == true)
             {
                 if (action == PlayerActions.NORTH)
                 {
@@ -124,7 +122,11 @@ namespace Crawler
                         position[0] -= 1;
                         // If the next position is the goal, end the game
                         if (Map[position[0]][position[1]] == 'X')
+                        {
                             this.active = false;
+                            started = false;
+                        }
+                            
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -136,7 +138,10 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[0] += 1;
                         if (Map[position[0]][position[1]] == 'X')
+                        {
                             this.active = false;
+                            started = false;
+                        }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -148,7 +153,10 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[1] -= 1;
                         if (Map[position[0]][position[1]] == 'X')
+                        {
                             this.active = false;
+                            started = false;
+                        }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -160,7 +168,10 @@ namespace Crawler
                         Map[position[0]][position[1]] = '-';
                         position[1] += 1;
                         if (Map[position[0]][position[1]] == 'X')
+                        {
                             this.active = false;
+                            started = false;
+                        }
                         else
                             Map[position[0]][position[1]] = '@';
                         
@@ -184,10 +195,10 @@ namespace Crawler
         /// </summary>
         public bool PrintMap()
         {
-            for (int i = 0; i < Map.Length-1; i++)
+            for (int i = 0; i < Map.Length; i++)
             {
                 Console.WriteLine(Map[i]);
-                return true;
+                //return true;
             }
             return false;
         }
@@ -311,9 +322,9 @@ namespace Crawler
         public bool GameIsRunning()
         {
             bool running = false;
-            if (active == true)
+            if (started == true)
                 running = true;
-            else if (active == false && working == true)
+            else if (started == false && working == true)
                 running = false;
 
             return running;
