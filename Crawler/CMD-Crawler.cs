@@ -29,6 +29,7 @@ namespace Crawler
         private bool active = true; 
         private bool started = false;
         private bool working = false;
+        private bool advanced = false;
 
         /// <summary>
         /// These objects will store the important global variables needed for the game to process. 
@@ -48,8 +49,10 @@ namespace Crawler
         private string ReadUserInput()
         {
             string inputRead = string.Empty;
-            inputRead = Console.ReadLine();
-
+            if (advanced == true && started == true)
+                 inputRead = Console.ReadKey().ToString();
+            else
+                inputRead = Console.ReadLine();
             return inputRead;
         }
 
@@ -116,7 +119,8 @@ namespace Crawler
                 if (action == PlayerActions.NORTH)
                 {
                     // If the next space is a wall, don't move the player
-                    if(Map[position[0]-1][position[1]] != '#')
+                    Console.WriteLine(position);
+                    if (Map[position[0]-1][position[1]] != '#')
                     {
                         Map[position[0]][position[1]] = '-';
                         position[0] -= 1;
@@ -245,6 +249,7 @@ namespace Crawler
             // Map becomes the version that gets updated when the player moves and originalMap is a copy of the original.
             originalMap = newMap;
             Map =  newMap;
+            GetPlayerPosition();
             initSuccess = true;
 
             return initSuccess;
@@ -290,7 +295,7 @@ namespace Crawler
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
-                    if (Map[y][x] == 'S') //(Map[y][x] == '@' ||
+                    if (Map[y][x] == '@' || Map[y][x] == 'S') //(Map[y][x] == '@' ||
                     {
                         position[0] = y;
                         position[1] = x;
