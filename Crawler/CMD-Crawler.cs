@@ -20,13 +20,13 @@ namespace Crawler
         ///<summary>
         ///These variables are used to track the users next input and make the code more readable.
         ///</summary>
-        public enum PlayerActions {NOTHING, NORTH, EAST, SOUTH, WEST, PICKUP, ATTACK, QUIT };
+        public enum PlayerActions { NOTHING, NORTH, EAST, SOUTH, WEST, PICKUP, ATTACK, QUIT };
         private PlayerActions action = PlayerActions.NOTHING;
 
         /// <summary>
         /// These variables prevent the game from running until it is correctly initalised.
         /// </summary>
-        private bool active = true; 
+        private bool active = true;
         private bool started = false;
         private bool working = false;
         private bool advanced = false;
@@ -44,7 +44,16 @@ namespace Crawler
         ///<summary>
         /// Creates globals used in advanced functionality
         /// </summary>
-        private char current = 'S';
+        private char current = '-';
+
+        private int playerhealth = 2;
+        private int playermoves = 0;
+        private int playercoins = 0;
+        private int playerkills = 0;
+
+        private int[] monsterposition = { 0, 0 };
+        private int monsterhealth = 1;
+        private int monstercoins = 0;
 
 
 
@@ -57,7 +66,12 @@ namespace Crawler
         {
             string inputRead = string.Empty;
             if (advanced == true && started == true)
+            {
+                
                 inputRead = Console.ReadKey().Key.ToString();
+                //if (inputRead == Key.Spacebar)
+                //    inputRead = ConsoleKey.Spacebar.ToString();
+            }
             else
                 inputRead = Console.ReadLine();
             return inputRead;
@@ -79,10 +93,31 @@ namespace Crawler
             input = input.ToLower();
             // Starts advanced functionality
             if (input == "advanced")
+            {
                 advanced = true;
+                Console.WriteLine("Started Advanced Mode");
+            }
+                
             // Needs to load map before game loop can start
             if (input == "load simple.map")
+            {
                 InitializeMap("Simple.Map");
+                Console.WriteLine("Loaded Simple.Map");
+            }
+
+            // Starts game
+            if (input == "play")
+            {
+                if (started == true && working == true)
+                    action = PlayerActions.NOTHING;
+                if (started == false && working == false)
+                {
+                    active = true;
+                    started = true;
+                    working = true;
+                }
+            }
+
             if (started == true)
             {
                 // If the game has been initalized, take the users next input
@@ -96,22 +131,10 @@ namespace Crawler
                     action = PlayerActions.EAST;
 
                 // Advanced functionality
-                if (advanced = true && input == "P")
+                if (advanced == true && input == "p")
                     action = PlayerActions.PICKUP;
-                if (advanced = true && input == " ")
+                if (advanced == true && input == "e")
                     action = PlayerActions.ATTACK;
-            }
-            // Starts game
-            if (input == "play")
-            {
-                if (started == true && working == true)
-                    action = PlayerActions.NOTHING;
-                if (started == false && working == false)
-                {
-                    active = true;
-                    started = true;
-                    working = true;
-                }
             }
         }
 
@@ -135,7 +158,7 @@ namespace Crawler
                 if (action == PlayerActions.NORTH)
                 {
                     // If the next space is a wall, don't move the player
-                    if (Map[position[0]-1][position[1]] != '#')
+                    if (Map[position[0]-1][position[1]] != '#' && Map[position[0] - 1][position[1]] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[0] -= 1;
@@ -154,7 +177,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.SOUTH)
                 {
-                    if (Map[position[0]+1][position[1]] != '#')
+                    if (Map[position[0]+1][position[1]] != '#' && Map[position[0]+1][position[1]] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[0] += 1;
@@ -172,7 +195,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.WEST)
                 {
-                    if (Map[position[0]][position[1]-1] != '#')
+                    if (Map[position[0]][position[1]-1] != '#' && Map[position[0]][position[1]-1] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[1] -= 1;
@@ -190,7 +213,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.EAST)
                 {
-                    if (Map[position[0]][position[1]+1] != '#')
+                    if (Map[position[0]][position[1]+1] != '#' && Map[position[0]][position[1]+1] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[1] += 1;
@@ -206,14 +229,30 @@ namespace Crawler
                         }
                     }
                 }
-                //if (action == PlayerActions.PICKUP)
-                //{
-                //    if (temp == 'C')
-                //    {
-                //        temp = '-';
-                //        /////////////////////////////// INC COIN COUNTER
-                //    }
-                //}
+                if (action == PlayerActions.PICKUP)
+                {
+                    if (current == 'C')
+                    {
+                        current = '-';
+                        playercoins += 1;
+                        Console.WriteLine(playercoins);
+                    }
+                }
+                if (action == PlayerActions.ATTACK)
+                {
+                    if (Map[position[0] - 1][position[1]] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0] + 1][position[1]] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0]][position[1] - 1] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0]][position[1] + 1] == Map[monsterposition[0]][monsterposition[1]])
+                    {
+                        Console.WriteLine("ATTACK");
+                        monsterhealth -= 1;
+                        if (monsterhealth < 1)
+                        {
+                            Map[monsterposition[0]][monsterposition[1]] = '-';
+                            playerkills += 1;
+
+                        }
+                    }
+                }
+                playermoves += 1;
             }
             return working;
         }
@@ -232,9 +271,35 @@ namespace Crawler
         /// </summary>
         public bool PrintMap()
         {
-            for (int i = 0; i < Map.Length; i++)
+            //for (int i = 0; i < Map.Length; i++)
+            //{
+            //    Console.WriteLine(Map[i]);
+            //}
+            if (advanced = true && started == true)
+                PrintMapAdvanced();
+            try
             {
-                Console.WriteLine(Map[i]);
+                Console.WriteLine(Map[0]);
+                Console.Write(Map[1]);
+                Console.WriteLine(" Controls.");
+                Console.Write(Map[2]);
+                Console.WriteLine(" W - Up              Moves: " + playermoves);
+                Console.Write(Map[3]);
+                Console.WriteLine(" A - Left            Coins Collected: " + playercoins);
+                Console.Write(Map[4]);
+                Console.WriteLine(" S - Down            Monsters Defeated: " + playerkills);
+                Console.Write(Map[5]);
+                Console.WriteLine(" D - Right");
+                Console.WriteLine(Map[6]);
+                Console.Write(Map[7]);
+                Console.WriteLine(" P - Collect Coins");
+                Console.Write(Map[8]);
+                Console.WriteLine(" SPACE - Attack");
+                Console.WriteLine(Map[9]);
+            }
+            catch
+            {
+                Console.WriteLine("Choose Map");
             }
             return true;
         }
@@ -249,10 +314,61 @@ namespace Crawler
         {
 
 
-            // Your code here
+            // Your code here            
 
             return true;
         }
+
+
+
+
+
+
+
+
+        public bool PrintMapAdvanced()
+        {
+
+
+            ConsoleColor colour = Console.ForegroundColor;
+            for (int i = 0; i < Map.Length-1; i++)
+            {
+                for (int j = 0; j < 31; i++)
+                {
+                    if (Map[i][j] == '#')
+                        colour = ConsoleColor.White;
+                    if (Map[i][j] == '-')
+                        colour = ConsoleColor.Black;
+                    if (Map[i][j] == '@')
+                        colour = ConsoleColor.Blue;
+                    if (Map[i][j] == 'C')
+                        colour = ConsoleColor.Yellow;
+                    if (Map[i][j] == 'M')
+                        colour = ConsoleColor.Red;
+                    if (Map[i][j] == 'X')
+                        colour = ConsoleColor.Green;
+                    Console.Write(Map[i][j]);
+                }
+            }
+            return true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /**
         * Map and GameState get initialized
@@ -282,6 +398,8 @@ namespace Crawler
             originalMap = newMap;
             Map =  newMap;
             GetPlayerPosition();
+            if (advanced == true)
+                GetMonsterPosition();
             initSuccess = true;
 
             return initSuccess;
@@ -339,6 +457,29 @@ namespace Crawler
             }
 
             return position;
+        }
+
+        /// <summary>
+        /// Advanced functionality that finds the position of the monsters so they can move / attack / pick up coins
+        /// </summary>
+        /// <returns></returns>
+        public int[]
+            GetMonsterPosition()
+        {
+                for (int y = 0; y < Map.Length - 1; y++)
+                {
+                    for (int x = 0; x < 31; x++) 
+                    {
+                        if (Map[y][x] == 'M')
+                        {
+                            monsterposition[0] = y;
+                            monsterposition[1] = x;
+                            y = Map.Length;
+                            x = Map[Map.Length - 1].Length;
+                        }
+                    }
+                }
+            return monsterposition;
         }
 
         /**
