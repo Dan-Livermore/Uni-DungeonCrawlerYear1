@@ -41,6 +41,13 @@ namespace Crawler
         private char[][] Map = new char[0][];
         private int[] position = { 0, 0 };
 
+        ///<summary>
+        /// Creates globals used in advanced functionality
+        /// </summary>
+        private char current = 'S';
+
+
+
         ///<summary> 
         ///Takes the users input from keyboard and returns it as a string. 
         ///If the game hasn't started sentences can be enterred to initalise the game.
@@ -50,7 +57,7 @@ namespace Crawler
         {
             string inputRead = string.Empty;
             if (advanced == true && started == true)
-                 inputRead = Console.ReadKey().ToString();
+                inputRead = Console.ReadKey().Key.ToString();
             else
                 inputRead = Console.ReadLine();
             return inputRead;
@@ -70,6 +77,9 @@ namespace Crawler
         {
             // Basic validation of input
             input = input.ToLower();
+            // Starts advanced functionality
+            if (input == "advanced")
+                advanced = true;
             // Needs to load map before game loop can start
             if (input == "load simple.map")
                 InitializeMap("Simple.Map");
@@ -84,6 +94,12 @@ namespace Crawler
                     action = PlayerActions.SOUTH;
                 if (input == "d")
                     action = PlayerActions.EAST;
+
+                // Advanced functionality
+                if (advanced = true && input == "P")
+                    action = PlayerActions.PICKUP;
+                if (advanced = true && input == " ")
+                    action = PlayerActions.ATTACK;
             }
             // Starts game
             if (input == "play")
@@ -119,68 +135,85 @@ namespace Crawler
                 if (action == PlayerActions.NORTH)
                 {
                     // If the next space is a wall, don't move the player
-                    Console.WriteLine(position);
                     if (Map[position[0]-1][position[1]] != '#')
                     {
-                        Map[position[0]][position[1]] = '-';
+                        Map[position[0]][position[1]] = current;
                         position[0] -= 1;
+                        current = Map[position[0]][position[1]];
                         // If the next position is the goal, end the game
                         if (Map[position[0]][position[1]] == 'X')
                         {
                             this.active = false;
                             started = false;
                         }
-                            
                         else
+                        {
                             Map[position[0]][position[1]] = '@';
+                        }
                     }
                 }
                 if (action == PlayerActions.SOUTH)
                 {
                     if (Map[position[0]+1][position[1]] != '#')
                     {
-                        Map[position[0]][position[1]] = '-';
+                        Map[position[0]][position[1]] = current;
                         position[0] += 1;
+                        current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
                         {
                             this.active = false;
                             started = false;
                         }
                         else
+                        {
                             Map[position[0]][position[1]] = '@';
+                        }
                     }
                 }
                 if (action == PlayerActions.WEST)
                 {
                     if (Map[position[0]][position[1]-1] != '#')
                     {
-                        Map[position[0]][position[1]] = '-';
+                        Map[position[0]][position[1]] = current;
                         position[1] -= 1;
+                        current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
                         {
                             this.active = false;
                             started = false;
                         }
                         else
+                        {
                             Map[position[0]][position[1]] = '@';
+                        }
                     }
                 }
                 if (action == PlayerActions.EAST)
                 {
                     if (Map[position[0]][position[1]+1] != '#')
                     {
-                        Map[position[0]][position[1]] = '-';
+                        Map[position[0]][position[1]] = current;
                         position[1] += 1;
+                        current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
                         {
                             this.active = false;
                             started = false;
                         }
                         else
+                        {
                             Map[position[0]][position[1]] = '@';
-                        
+                        }
                     }
                 }
+                //if (action == PlayerActions.PICKUP)
+                //{
+                //    if (temp == 'C')
+                //    {
+                //        temp = '-';
+                //        /////////////////////////////// INC COIN COUNTER
+                //    }
+                //}
             }
             return working;
         }
@@ -202,7 +235,6 @@ namespace Crawler
             for (int i = 0; i < Map.Length; i++)
             {
                 Console.WriteLine(Map[i]);
-                //return true;
             }
             return true;
         }
