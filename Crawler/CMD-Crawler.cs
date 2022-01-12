@@ -97,12 +97,27 @@ namespace Crawler
                 advanced = true;
                 Console.WriteLine("Started Advanced Mode");
             }
-                
+            if (input == "basic")
+            {
+                advanced = true;
+                Console.WriteLine("Returned to Basic Functionality");
+            }
+
             // Needs to load map before game loop can start
             if (input == "load simple.map")
             {
                 InitializeMap("Simple.Map");
                 Console.WriteLine("Loaded Simple.Map");
+            }
+            if (input == "load simple2.map")
+            {
+                InitializeMap("Simple2.Map");
+                Console.WriteLine("Loaded Simple.Map 2");
+            }
+            if (input == "load advanced.map")
+            {
+                InitializeMap("Advanced.Map");
+                Console.WriteLine("Loaded Advanced.Map");
             }
 
             // Starts game
@@ -133,7 +148,7 @@ namespace Crawler
                 // Advanced functionality
                 if (advanced == true && input == "p")
                     action = PlayerActions.PICKUP;
-                if (advanced == true && input == "e")
+                if (advanced == true && input == "e") //ConsoleKey.Spacebar == true)
                     action = PlayerActions.ATTACK;
             }
         }
@@ -235,14 +250,12 @@ namespace Crawler
                     {
                         current = '-';
                         playercoins += 1;
-                        Console.WriteLine(playercoins);
                     }
                 }
                 if (action == PlayerActions.ATTACK)
                 {
                     if (Map[position[0] - 1][position[1]] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0] + 1][position[1]] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0]][position[1] - 1] == Map[monsterposition[0]][monsterposition[1]] || Map[position[0]][position[1] + 1] == Map[monsterposition[0]][monsterposition[1]])
                     {
-                        Console.WriteLine("ATTACK");
                         monsterhealth -= 1;
                         if (monsterhealth < 1)
                         {
@@ -271,14 +284,15 @@ namespace Crawler
         /// </summary>
         public bool PrintMap()
         {
-            //for (int i = 0; i < Map.Length; i++)
-            //{
-            //    Console.WriteLine(Map[i]);
-            //}
             if (advanced = true && started == true)
+            {
                 PrintMapAdvanced();
+                return true;
+            }
             try
             {
+                //for (int i = 0; i < Map.Length; i++)
+                //    Console.WriteLine(Map[i]);
                 Console.WriteLine(Map[0]);
                 Console.Write(Map[1]);
                 Console.WriteLine(" Controls.");
@@ -323,52 +337,37 @@ namespace Crawler
 
 
 
-
-
-
+        /// <summary>
+        /// Replaces the print map method for advanced mode to display the map with colours to improve the UX.
+        /// </summary>
+        /// <returns></returns>
         public bool PrintMapAdvanced()
         {
-
-
             ConsoleColor colour = Console.ForegroundColor;
-            for (int i = 0; i < Map.Length-1; i++)
+            for (int j = 0; j < Map.Length; j++)
             {
-                for (int j = 0; j < 31; i++)
+                for (int i = 0; i < 31; i++)
                 {
-                    if (Map[i][j] == '#')
+                    if (Map[j][i] == '#')
                         colour = ConsoleColor.White;
-                    if (Map[i][j] == '-')
-                        colour = ConsoleColor.Black;
-                    if (Map[i][j] == '@')
-                        colour = ConsoleColor.Blue;
-                    if (Map[i][j] == 'C')
+                    else if (Map[j][i] == '-')
+                        colour = ConsoleColor.DarkGray;
+                    else if (Map[j][i] == '@')
+                        colour = ConsoleColor.Cyan;
+                    else if (Map[j][i] == 'C')
                         colour = ConsoleColor.Yellow;
-                    if (Map[i][j] == 'M')
+                    else if (Map[j][i] == 'M')
                         colour = ConsoleColor.Red;
-                    if (Map[i][j] == 'X')
+                    else if (Map[j][i] == 'X')
                         colour = ConsoleColor.Green;
-                    Console.Write(Map[i][j]);
+                    Console.ForegroundColor = colour;
+                    Console.Write(Map[j][i]);
                 }
+                
+                Console.Write("\n");
             }
             return true;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /**
         * Map and GameState get initialized
