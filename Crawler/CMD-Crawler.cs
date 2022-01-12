@@ -385,17 +385,21 @@ namespace Crawler
             bool initSuccess = false;
             string[] Text;
             // Finds correct directory
-            string path = Directory.GetCurrentDirectory() + "/maps/" + mapName;
+            string path = Environment.CurrentDirectory + "/maps/" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
             char[][] newMap = new char[Text.Length][];
+            char[][] newMap2 = new char[Text.Length][];
 
             for (int y = 0; y < Text.Length; y++)
+            {
                 newMap[y] = Text[y].ToCharArray();
+                newMap2[y] = Text[y].ToCharArray();
+            }
             
             // Map becomes the version that gets updated when the player moves and originalMap is a copy of the original.
             originalMap = newMap;
-            Map =  newMap;
+            Map =  newMap2;
             GetPlayerPosition();
             if (advanced == true)
                 GetMonsterPosition();
