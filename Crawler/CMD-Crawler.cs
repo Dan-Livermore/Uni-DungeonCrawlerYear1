@@ -104,7 +104,7 @@ namespace Crawler
             }
 
             // Needs to load map before game loop can start
-            if (input == "load simple.map")
+            if (input == "load Simple.map")
             {
                 InitializeMap("Simple.Map");
                 Console.WriteLine("Loaded Simple.Map");
@@ -136,19 +136,19 @@ namespace Crawler
             if (started == true)
             {
                 // If the game has been initalized, take the users next input
-                if (input == "w")
+                if (input == "W")
                     action = PlayerActions.NORTH;
-                if (input == "a")
+                if (input == "A")
                     action = PlayerActions.WEST;
-                if (input == "s")
+                if (input == "S")
                     action = PlayerActions.SOUTH;
-                if (input == "d")
+                if (input == "D")
                     action = PlayerActions.EAST;
 
                 // Advanced functionality
-                if (advanced == true && input == "p")
+                if (advanced == true && input == "P")
                     action = PlayerActions.PICKUP;
-                if (advanced == true && input == "e") //ConsoleKey.Spacebar == true)
+                if (advanced == true && input == "E") //ConsoleKey.Spacebar == true)
                     action = PlayerActions.ATTACK;
             }
         }
