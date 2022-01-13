@@ -90,7 +90,7 @@ namespace Crawler
         public void ProcessUserInput(string input)
         {
             // Basic validation of input
-            input = input.ToLower();
+            //input = input.ToLower();
             // Starts advanced functionality
             if (input == "advanced")
             {
@@ -106,7 +106,7 @@ namespace Crawler
             // Needs to load map before game loop can start
             if (input == "load simple.map")
             {
-                InitializeMap("Simple.Map");
+                InitializeMap("Simple.map");
                 Console.WriteLine("Loaded Simple.Map");
             }
             if (input == "load simple2.map")
@@ -390,8 +390,11 @@ namespace Crawler
             string path = Environment.CurrentDirectory + "/maps/" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
-            Console.WriteLine(mapName);
             Console.WriteLine(path);
+            // There is an issue with gits case sensitivity 
+
+
+
             char[][] newMap = new char[Text.Length][];
 
             for (int y = 0; y < Text.Length; y++)
