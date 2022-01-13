@@ -44,7 +44,7 @@ namespace Crawler
         ///<summary>
         /// Creates globals used in advanced functionality
         /// </summary>
-        private char current = 'S';
+        private char current = '-';
 
         private int playerhealth = 2;
         private int playermoves = 0;
@@ -99,7 +99,7 @@ namespace Crawler
             }
             if (input == "basic")
             {
-                advanced = true;
+                advanced = false;
                 Console.WriteLine("Returned to Basic Functionality");
             }
 
@@ -286,7 +286,7 @@ namespace Crawler
         {
             if (advanced = true && started == true)
             {
-                PrintMapAdvanced();
+                //PrintMapAdvanced();
                 return true;
             }
             try
