@@ -106,7 +106,7 @@ namespace Crawler
             // Needs to load map before game loop can start
             if (input == "load simple.map")
             {
-                InitializeMap("Simple.map");
+                InitializeMap("Simple.Map");
                 Console.WriteLine("Loaded Simple.Map");
             }
             if (input == "load simple2.map")
