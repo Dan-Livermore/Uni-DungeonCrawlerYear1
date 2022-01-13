@@ -385,9 +385,11 @@ namespace Crawler
             bool initSuccess = false;
             string[] Text;
             // Finds correct directory
-            string path = Environment.CurrentDirectory + "/maps/" + mapName;
+            string path = Environment.CurrentDirectory + "/maps/Simple.map"; //" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
+            Console.WriteLine(mapName);
+            Console.WriteLine(path);
             char[][] newMap = new char[Text.Length][];
             char[][] newMap2 = new char[Text.Length][];
 
