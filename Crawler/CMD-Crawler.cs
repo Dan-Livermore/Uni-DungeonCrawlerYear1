@@ -106,7 +106,7 @@ namespace Crawler
             // Needs to load map before game loop can start
             if (input == "load Simple.map")
             {
-                InitializeMap("Simple.Map");
+                InitializeMap("Simple.map");
                 Console.WriteLine("Loaded Simple.Map");
             }
             if (input == "load simple2.map")
@@ -387,7 +387,7 @@ namespace Crawler
             bool initSuccess = false;
             string[] Text;
             // Finds correct directory
-            string path = Environment.CurrentDirectory + "/maps/" + mapName;
+            string path = Environment.CurrentDirectory + "\\maps\\" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
             Console.WriteLine(path);
