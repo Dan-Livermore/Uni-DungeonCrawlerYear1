@@ -284,37 +284,39 @@ namespace Crawler
         /// </summary>
         public bool PrintMap()
         {
-            if (advanced = true && started == true)
-            {
-                //PrintMapAdvanced();
-                return true;
-            }
-            try
-            {
-                //for (int i = 0; i < Map.Length; i++)
-                //    Console.WriteLine(Map[i]);
-                Console.WriteLine(Map[0]);
-                Console.Write(Map[1]);
-                Console.WriteLine(" Controls.");
-                Console.Write(Map[2]);
-                Console.WriteLine(" W - Up              Moves: " + playermoves);
-                Console.Write(Map[3]);
-                Console.WriteLine(" A - Left            Coins Collected: " + playercoins);
-                Console.Write(Map[4]);
-                Console.WriteLine(" S - Down            Monsters Defeated: " + playerkills);
-                Console.Write(Map[5]);
-                Console.WriteLine(" D - Right");
-                Console.WriteLine(Map[6]);
-                Console.Write(Map[7]);
-                Console.WriteLine(" P - Collect Coins");
-                Console.Write(Map[8]);
-                Console.WriteLine(" SPACE - Attack");
-                Console.WriteLine(Map[9]);
-            }
-            catch
-            {
-                Console.WriteLine("Choose Map");
-            }
+            for (int i = 0; i < Map.Length; i++)
+                Console.WriteLine(Map[i]);
+
+            //if (advanced = true && started == true)
+            //{
+            //    //PrintMapAdvanced();
+            //    return true;
+            //}
+            //try
+            //{
+
+            //    Console.WriteLine(Map[0]);
+            //    Console.Write(Map[1]);
+            //    Console.WriteLine(" Controls.");
+            //    Console.Write(Map[2]);
+            //    Console.WriteLine(" W - Up              Moves: " + playermoves);
+            //    Console.Write(Map[3]);
+            //    Console.WriteLine(" A - Left            Coins Collected: " + playercoins);
+            //    Console.Write(Map[4]);
+            //    Console.WriteLine(" S - Down            Monsters Defeated: " + playerkills);
+            //    Console.Write(Map[5]);
+            //    Console.WriteLine(" D - Right");
+            //    Console.WriteLine(Map[6]);
+            //    Console.Write(Map[7]);
+            //    Console.WriteLine(" P - Collect Coins");
+            //    Console.Write(Map[8]);
+            //    Console.WriteLine(" SPACE - Attack");
+            //    Console.WriteLine(Map[9]);
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("Choose Map");
+            //}
             return true;
         }
         /**
