@@ -243,8 +243,8 @@ namespace Crawler
                 }
                 playermoves += 1;
 
-                if (advanced == true)
-                    DoMonsterMovement();
+                //if (advanced == true)
+                //    DoMonsterMovement();
             }
             return working;
         }
@@ -449,71 +449,71 @@ namespace Crawler
             return monsterposition;
         }
 
-        public bool DoMonsterMovement()
-        {
-            Random random = new Random();
-            int randint = random.Next(4);
-            Console.WriteLine(randint);
+        //public bool DoMonsterMovement()
+        //{
+        //    Random random = new Random();
+        //    int randint = random.Next(4);
+        //    Console.WriteLine(randint);
 
-                if (Map[monsterposition[0] - 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0] + 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] - 1] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] + 1] == Map[position[0]][position[1]])
-                {
-                    playerhealth -= 1;
-                    if (playerhealth < 1)
-                    {
-                        Map[position[0]][position[1]] = '-';
-                        Console.WriteLine("Get rekt you died. what a noob");
-                        playerdeaths += 1;
-                        TerminateGame();
-                        return true;
-                    }
-                }
+        //        if (Map[monsterposition[0] - 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0] + 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] - 1] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] + 1] == Map[position[0]][position[1]])
+        //        {
+        //            playerhealth -= 1;
+        //            if (playerhealth < 1)
+        //            {
+        //                Map[position[0]][position[1]] = '-';
+        //                Console.WriteLine("Get rekt you died. what a noob");
+        //                playerdeaths += 1;
+        //                TerminateGame();
+        //                return true;
+        //            }
+        //        }
 
-            if (randint == 0)
-            {
-                if (Map[monsterposition[0] - 1][monsterposition[1]] != '#' && Map[monsterposition[0] - 1][monsterposition[1]] != '@')
-                {
-                    Map[monsterposition[0]][monsterposition[1]] = current;
-                    monsterposition[0] -= 1;
-                    current2 = Map[monsterposition[0]][monsterposition[1]];
-                    // If the next position is the goal, end the game
-                    Map[monsterposition[0]][monsterposition[1]] = 'M';
-                }
-            }
-            if (randint == 1)
-            {
-                if (Map[monsterposition[0] + 1][monsterposition[1]] != '#' && Map[monsterposition[0] + 1][monsterposition[1]] != '@')
-                {
-                    Map[monsterposition[0]][monsterposition[1]] = current;
-                    monsterposition[0] += 1;
-                    current2 = Map[monsterposition[0]][monsterposition[1]];
-                    // If the next position is the goal, end the game
-                    Map[monsterposition[0]][monsterposition[1]] = 'M';
-                }
-            }
-            if (randint == 2)
-            {
-                if (Map[monsterposition[0]][monsterposition[1] - 1] != '#' && Map[monsterposition[0]][monsterposition[1] - 1] != '@')
-                {
-                    Map[monsterposition[0]][monsterposition[1]] = current;
-                    monsterposition[1] -= 1;
-                    current2 = Map[monsterposition[0]][monsterposition[1]];
-                    // If the next position is the goal, end the game
-                    Map[monsterposition[0]][monsterposition[1]] = 'M';
-                }
-            }
-            if (randint == 3)
-            {
-                    if (Map[monsterposition[0]][monsterposition[1] + 1] != '#' && Map[monsterposition[0]][monsterposition[1] + 1] != '@')
-                    {
-                        Map[monsterposition[0]][monsterposition[1]] = current;
-                        monsterposition[1] += 1;
-                        current2 = Map[monsterposition[0]][monsterposition[1]];
-                        // If the next position is the goal, end the game
-                        Map[monsterposition[0]][monsterposition[1]] = 'M';
-                    }
-            }
-            return false;
-        }
+        //    if (randint == 0)
+        //    {
+        //        if (Map[monsterposition[0] - 1][monsterposition[1]] != '#' && Map[monsterposition[0] - 1][monsterposition[1]] != '@')
+        //        {
+        //            Map[monsterposition[0]][monsterposition[1]] = current;
+        //            monsterposition[0] -= 1;
+        //            current2 = Map[monsterposition[0]][monsterposition[1]];
+        //            // If the next position is the goal, end the game
+        //            Map[monsterposition[0]][monsterposition[1]] = 'M';
+        //        }
+        //    }
+        //    if (randint == 1)
+        //    {
+        //        if (Map[monsterposition[0] + 1][monsterposition[1]] != '#' && Map[monsterposition[0] + 1][monsterposition[1]] != '@')
+        //        {
+        //            Map[monsterposition[0]][monsterposition[1]] = current;
+        //            monsterposition[0] += 1;
+        //            current2 = Map[monsterposition[0]][monsterposition[1]];
+        //            // If the next position is the goal, end the game
+        //            Map[monsterposition[0]][monsterposition[1]] = 'M';
+        //        }
+        //    }
+        //    if (randint == 2)
+        //    {
+        //        if (Map[monsterposition[0]][monsterposition[1] - 1] != '#' && Map[monsterposition[0]][monsterposition[1] - 1] != '@')
+        //        {
+        //            Map[monsterposition[0]][monsterposition[1]] = current;
+        //            monsterposition[1] -= 1;
+        //            current2 = Map[monsterposition[0]][monsterposition[1]];
+        //            // If the next position is the goal, end the game
+        //            Map[monsterposition[0]][monsterposition[1]] = 'M';
+        //        }
+        //    }
+        //    if (randint == 3)
+        //    {
+        //            if (Map[monsterposition[0]][monsterposition[1] + 1] != '#' && Map[monsterposition[0]][monsterposition[1] + 1] != '@')
+        //            {
+        //                Map[monsterposition[0]][monsterposition[1]] = current;
+        //                monsterposition[1] += 1;
+        //                current2 = Map[monsterposition[0]][monsterposition[1]];
+        //                // If the next position is the goal, end the game
+        //                Map[monsterposition[0]][monsterposition[1]] = 'M';
+        //            }
+        //    }
+        //    return false;
+        //}
 
         /**
         * Returns the next player action
