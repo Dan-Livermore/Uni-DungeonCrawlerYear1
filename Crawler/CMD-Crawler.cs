@@ -64,13 +64,13 @@ namespace Crawler
         ///</summary>
         private string ReadUserInput()
         {
+
+            if (started == false && working == false)
+                Console.WriteLine("Select Mode, Load Map then Type Play.");
             string inputRead = string.Empty;
             if (advanced == true && started == true)
             {
-                
                 inputRead = Console.ReadKey().Key.ToString();
-                //if (inputRead == Key.Spacebar)
-                //    inputRead = ConsoleKey.Spacebar.ToString();
             }
             else
                 inputRead = Console.ReadLine();
@@ -148,7 +148,7 @@ namespace Crawler
                 // Advanced functionality
                 if (advanced == true && input == "P")
                     action = PlayerActions.PICKUP;
-                if (advanced == true && input == "E") //ConsoleKey.Spacebar == true)
+                if (advanced == true && input == "Spacebar") //ConsoleKey.Spacebar
                     action = PlayerActions.ATTACK;
             }
         }
@@ -390,10 +390,6 @@ namespace Crawler
             string path = Environment.CurrentDirectory + "/maps/" + mapName;
             // No try loop needed as there should always be the folder of maps.
             Text = File.ReadAllLines(path);
-            Console.WriteLine(path);
-            // There is an issue with gits case sensitivity 
-
-
 
             char[][] newMap = new char[Text.Length][];
 
@@ -453,7 +449,7 @@ namespace Crawler
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
-                    if (Map[y][x] == '@' || Map[y][x] == 'S') //(Map[y][x] == '@' ||
+                    if (Map[y][x] == '@' || Map[y][x] == 'S')
                     {
                         position[0] = y;
                         position[1] = x;
