@@ -109,14 +109,9 @@ namespace Crawler
                 InitializeMap("Simple.map");
                 Console.WriteLine("Loaded Simple.Map");
             }
-            if (input == "load simple2.map")
+            if (input == "load Advanced.map")
             {
-                InitializeMap("Simple2.Map");
-                Console.WriteLine("Loaded Simple.Map 2");
-            }
-            if (input == "load advanced.map")
-            {
-                InitializeMap("Advanced.Map");
+                InitializeMap("Advanced.map");
                 Console.WriteLine("Loaded Advanced.Map");
             }
 
@@ -180,14 +175,9 @@ namespace Crawler
                         current = Map[position[0]][position[1]];
                         // If the next position is the goal, end the game
                         if (Map[position[0]][position[1]] == 'X')
-                        {
-                            this.active = false;
-                            started = false;
-                        }
+                            TerminateGame();
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.SOUTH)
@@ -198,14 +188,9 @@ namespace Crawler
                         position[0] += 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                        {
-                            this.active = false;
-                            started = false;
-                        }
+                            TerminateGame();
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.WEST)
@@ -216,14 +201,9 @@ namespace Crawler
                         position[1] -= 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                        {
-                            this.active = false;
-                            started = false;
-                        }
+                            TerminateGame();
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.EAST)
@@ -234,14 +214,9 @@ namespace Crawler
                         position[1] += 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                        {
-                            this.active = false;
-                            started = false;
-                        }
+                            TerminateGame();
                         else
-                        {
                             Map[position[0]][position[1]] = '@';
-                        }
                     }
                 }
                 if (action == PlayerActions.PICKUP)
@@ -284,39 +259,13 @@ namespace Crawler
         /// </summary>
         public bool PrintMap()
         {
-            for (int i = 0; i < Map.Length; i++)
-                Console.WriteLine(Map[i]);
-
-            //if (advanced = true && started == true)
-            //{
-            //    //PrintMapAdvanced();
-            //    return true;
-            //}
-            //try
-            //{
-
-            //    Console.WriteLine(Map[0]);
-            //    Console.Write(Map[1]);
-            //    Console.WriteLine(" Controls.");
-            //    Console.Write(Map[2]);
-            //    Console.WriteLine(" W - Up              Moves: " + playermoves);
-            //    Console.Write(Map[3]);
-            //    Console.WriteLine(" A - Left            Coins Collected: " + playercoins);
-            //    Console.Write(Map[4]);
-            //    Console.WriteLine(" S - Down            Monsters Defeated: " + playerkills);
-            //    Console.Write(Map[5]);
-            //    Console.WriteLine(" D - Right");
-            //    Console.WriteLine(Map[6]);
-            //    Console.Write(Map[7]);
-            //    Console.WriteLine(" P - Collect Coins");
-            //    Console.Write(Map[8]);
-            //    Console.WriteLine(" SPACE - Attack");
-            //    Console.WriteLine(Map[9]);
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("Choose Map");
-            //}
+            if (advanced == true)
+                PrintMapAdvanced();
+            else
+            {
+                for (int i = 0; i < Map.Length; i++)
+                    Console.WriteLine(Map[i]);
+            }
             return true;
         }
         /**
@@ -330,7 +279,7 @@ namespace Crawler
         {
 
 
-            // Your code here            
+            // Your code here
 
             return true;
         }
@@ -364,9 +313,19 @@ namespace Crawler
                         colour = ConsoleColor.Green;
                     Console.ForegroundColor = colour;
                     Console.Write(Map[j][i]);
-                }
-                
+                } 
                 Console.Write("\n");
+            }
+
+            if (started == true)
+            {
+                Console.WriteLine("     Controls.");
+                Console.WriteLine("     W - Up              Moves: " + playermoves);
+                Console.WriteLine("     A - Left            Coins Collected: " + playercoins);
+                Console.WriteLine("     S - Down            Monsters Defeated: " + playerkills);
+                Console.WriteLine("     D - Right");
+                Console.WriteLine("     P - Collect Coins");
+                Console.WriteLine("     SPACE - Attack");
             }
             return true;
         }
@@ -511,6 +470,41 @@ namespace Crawler
 
             return running;
         }
+
+
+
+
+
+
+
+
+
+
+        public bool TerminateGame()
+        {
+            Console.WriteLine("Game Complete");
+            Console.WriteLine("Replay Map or Quit");
+
+            string input = Console.ReadLine();
+            if (input == "Replay")
+            {
+                current = '-';
+                ProcessUserInput("load Simple.map");
+                ProcessUserInput("play");
+            }
+            else
+            {
+                this.active = false;
+            }
+            return false;
+        }
+
+
+
+
+
+
+
 
         /**
          * Main method and Entry point to the program
