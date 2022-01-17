@@ -319,13 +319,13 @@ namespace Crawler
 
             if (started == true)
             {
-                Console.WriteLine("     Controls.");
-                Console.WriteLine("     W - Up              Moves: " + playermoves);
-                Console.WriteLine("     A - Left            Coins Collected: " + playercoins);
-                Console.WriteLine("     S - Down            Monsters Defeated: " + playerkills);
-                Console.WriteLine("     D - Right");
-                Console.WriteLine("     P - Collect Coins");
-                Console.WriteLine("     SPACE - Attack");
+                Console.WriteLine("  Controls.");
+                Console.WriteLine("    W - Up              Moves: " + playermoves);
+                Console.WriteLine("    A - Left            Coins Collected: " + playercoins);
+                Console.WriteLine("    S - Down            Monsters Defeated: " + playerkills);
+                Console.WriteLine("    D - Right");
+                Console.WriteLine("    P - Collect Coins");
+                Console.WriteLine("    SPACE - Attack");
             }
             return true;
         }
@@ -404,7 +404,7 @@ namespace Crawler
         public int[] 
             GetPlayerPosition()
         {
-            for (int y = 0; y < Map.Length - 1; y++)
+            for (int y = 0; y < Map.Length; y++)
             {
                 for (int x = 0; x < 31; x++) // Fails if put Map[x].Length-1 because sometimes its 35 not 31, despite not existing
                 {
