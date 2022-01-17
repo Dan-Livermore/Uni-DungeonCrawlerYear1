@@ -45,11 +45,13 @@ namespace Crawler
         /// Creates globals used in advanced functionality
         /// </summary>
         private char current = '-';
+        private char current2 = '-';
 
         private int playerhealth = 2;
         private int playermoves = 0;
         private int playercoins = 0;
         private int playerkills = 0;
+        private int playerdeaths = 0;
 
         private int[] monsterposition = { 0, 0 };
         private int monsterhealth = 1;
@@ -64,7 +66,6 @@ namespace Crawler
         ///</summary>
         private string ReadUserInput()
         {
-
             if (started == false && working == false)
                 Console.WriteLine("Select Mode, Load Map then Type Play.");
             string inputRead = string.Empty;
@@ -143,7 +144,7 @@ namespace Crawler
                 // Advanced functionality
                 if (advanced == true && input == "P")
                     action = PlayerActions.PICKUP;
-                if (advanced == true && input == "Spacebar") //ConsoleKey.Spacebar
+                if (advanced == true && input == "Spacebar")
                     action = PlayerActions.ATTACK;
             }
         }
@@ -241,6 +242,9 @@ namespace Crawler
                     }
                 }
                 playermoves += 1;
+
+                if (advanced == true)
+                    DoMonsterMovement();
             }
             return working;
         }
@@ -297,7 +301,7 @@ namespace Crawler
             ConsoleColor colour = Console.ForegroundColor;
             for (int j = 0; j < Map.Length; j++)
             {
-                for (int i = 0; i < 31; i++)
+                for (int i = 0; i < Map[j].Length; i++)
                 {
                     if (Map[j][i] == '#')
                         colour = ConsoleColor.White;
@@ -320,11 +324,11 @@ namespace Crawler
             if (started == true)
             {
                 Console.WriteLine("  Controls.");
-                Console.WriteLine("    W - Up              Moves: " + playermoves);
-                Console.WriteLine("    A - Left            Coins Collected: " + playercoins);
-                Console.WriteLine("    S - Down            Monsters Defeated: " + playerkills);
-                Console.WriteLine("    D - Right");
-                Console.WriteLine("    P - Collect Coins");
+                Console.WriteLine("    W - Up              Deaths: " + playerdeaths);
+                Console.WriteLine("    A - Left            Moves: " + playermoves);
+                Console.WriteLine("    S - Down");
+                Console.WriteLine("    D - Right           Coins Collected: " + playercoins);
+                Console.WriteLine("    P - Collect Coins   Monsters Defeated: " + playerkills);
                 Console.WriteLine("    SPACE - Attack");
             }
             return true;
@@ -443,6 +447,72 @@ namespace Crawler
                     }
                 }
             return monsterposition;
+        }
+
+        public bool DoMonsterMovement()
+        {
+            Random random = new Random();
+            int randint = random.Next(4);
+            Console.WriteLine(randint);
+
+                if (Map[monsterposition[0] - 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0] + 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] - 1] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] + 1] == Map[position[0]][position[1]])
+                {
+                    playerhealth -= 1;
+                    if (playerhealth < 1)
+                    {
+                        Map[position[0]][position[1]] = '-';
+                        Console.WriteLine("Get rekt you died. what a noob");
+                        playerdeaths += 1;
+                        TerminateGame();
+                        return true;
+                    }
+                }
+
+            if (randint == 0)
+            {
+                if (Map[monsterposition[0] - 1][monsterposition[1]] != '#' && Map[monsterposition[0] - 1][monsterposition[1]] != '@')
+                {
+                    Map[monsterposition[0]][monsterposition[1]] = current;
+                    monsterposition[0] -= 1;
+                    current2 = Map[monsterposition[0]][monsterposition[1]];
+                    // If the next position is the goal, end the game
+                    Map[monsterposition[0]][monsterposition[1]] = 'M';
+                }
+            }
+            if (randint == 1)
+            {
+                if (Map[monsterposition[0] + 1][monsterposition[1]] != '#' && Map[monsterposition[0] + 1][monsterposition[1]] != '@')
+                {
+                    Map[monsterposition[0]][monsterposition[1]] = current;
+                    monsterposition[0] += 1;
+                    current2 = Map[monsterposition[0]][monsterposition[1]];
+                    // If the next position is the goal, end the game
+                    Map[monsterposition[0]][monsterposition[1]] = 'M';
+                }
+            }
+            if (randint == 2)
+            {
+                if (Map[monsterposition[0]][monsterposition[1] - 1] != '#' && Map[monsterposition[0]][monsterposition[1] - 1] != '@')
+                {
+                    Map[monsterposition[0]][monsterposition[1]] = current;
+                    monsterposition[1] -= 1;
+                    current2 = Map[monsterposition[0]][monsterposition[1]];
+                    // If the next position is the goal, end the game
+                    Map[monsterposition[0]][monsterposition[1]] = 'M';
+                }
+            }
+            if (randint == 3)
+            {
+                    if (Map[monsterposition[0]][monsterposition[1] + 1] != '#' && Map[monsterposition[0]][monsterposition[1] + 1] != '@')
+                    {
+                        Map[monsterposition[0]][monsterposition[1]] = current;
+                        monsterposition[1] += 1;
+                        current2 = Map[monsterposition[0]][monsterposition[1]];
+                        // If the next position is the goal, end the game
+                        Map[monsterposition[0]][monsterposition[1]] = 'M';
+                    }
+            }
+            return false;
         }
 
         /**
