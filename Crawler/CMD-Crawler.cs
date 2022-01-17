@@ -176,7 +176,13 @@ namespace Crawler
                         current = Map[position[0]][position[1]];
                         // If the next position is the goal, end the game
                         if (Map[position[0]][position[1]] == 'X')
-                            TerminateGame();
+                            if (advanced == true)
+                                TerminateGame();
+                            else
+                            {
+                                this.active = false;
+                                started = false;
+                            }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -189,7 +195,13 @@ namespace Crawler
                         position[0] += 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                            TerminateGame();
+                            if (advanced == true)
+                                TerminateGame();
+                            else
+                            {
+                                this.active = false;
+                                started = false;
+                            }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -202,7 +214,13 @@ namespace Crawler
                         position[1] -= 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                            TerminateGame();
+                            if (advanced == true)
+                                TerminateGame();
+                            else
+                            {
+                                this.active = false;
+                                started = false;
+                            }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
@@ -215,7 +233,13 @@ namespace Crawler
                         position[1] += 1;
                         current = Map[position[0]][position[1]];
                         if (Map[position[0]][position[1]] == 'X')
-                            TerminateGame();
+                            if (advanced == true)
+                                TerminateGame();
+                            else
+                            {
+                                this.active = false;
+                                started = false;
+                            }
                         else
                             Map[position[0]][position[1]] = '@';
                     }
