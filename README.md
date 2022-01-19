@@ -22,7 +22,7 @@ The elements on the map represent: <br />
 
 To complete the game, the user must get to the X tile.
 
-1[](gif4.gif)
+![](gif4.gif)
 
 The user can also start the game in **ADVANCED MODE** by typing in ``` advanced ``` before loading the map <br />
 
@@ -31,16 +31,17 @@ The user can also start the game in **ADVANCED MODE** by typing in ``` advanced 
 This also enables other features. In this mode: <br />
 - the user can now pick up coins by pressing the P key when their character is ontop of them
 - the player can now attack the monsters that are 1 tile adjacent from them
-- the map is displayed with different colours for each element of the map
-> @ = Cyan
-> X = Green
-> - = Grey
-> # = White
-> C = Yellow
-> M = Red
 - the user does not need to press ENTER after each input
 - the monsters can move
 - the user can quickly replay the game once they have escaped the dungeon.
+
+The map is displayed with different colours for each element of the map
+``` @ = Cyan ```
+``` X = Green ```
+```  - = Grey ```
+``` # = White ```
+> C = Yellow
+> M = Red
 
 ![](gif3.gif)
 
@@ -53,5 +54,5 @@ Now try to escape the dungeon yourself!
 [C# this parameter](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/this) <br />
 
 
-# [Link to demo](https://youtu.be/tw-2qRdt0R0) 
+## [Link to demo](https://youtu.be/tw-2qRdt0R0) 
 
