@@ -13,18 +13,18 @@ And then enters: ``` play ``` to start their adventure. <br />
 The user controls their character by using the WASD keys followed by ENTER on their keyboard. <br />
 
 The elements on the map represent: <br />
-> @ = The player
-> X = The exit
-> - = The floor
-> # = Walls
-> C = Coins to collect
-> M = Monsters to defeat
+``` @ = The player ``` <br />
+``` X = The exit ``` <br />
+``` - = The floor ``` <br />
+``` # = Walls ``` <br />
+``` C = Coins to collect ``` <br />
+``` M = Monsters to defeat ``` <br />
 
 To complete the game, the user must get to the X tile.
 
 ![](gif4.gif)
 
-The user can also start the game in **ADVANCED MODE** by typing in ``` advanced ``` before loading the map <br />
+The user can also start the game in **ADVANCED MODE** by typing in ``` advanced ``` before loading the map. <br />
 
 ![](gif2.gif)
 
@@ -35,22 +35,25 @@ This also enables other features. In this mode: <br />
 - the monsters can move
 - the user can quickly replay the game once they have escaped the dungeon.
 
-The map is displayed with different colours for each element of the map
-``` @ = Cyan ```
-``` X = Green ```
-```  - = Grey ```
-``` # = White ```
-> C = Yellow
-> M = Red
+The map is also displayed with different colours for each element of the map <br />
+``` @ = Cyan ``` <br />
+``` X = Green ``` <br />
+```  - = Grey ``` <br />
+``` # = White ``` <br />
+``` C = Yellow ``` <br />
+``` M = Red ``` <br />
 
 ![](gif3.gif)
 
 
-Now try to escape the dungeon yourself!
+Now try to escape the dungeon yourself! <br />
 
+All tests pass.
+![Tests](gif5.gif)
 
 ### Resources used: <br />
-[How to colour text](https://www.tutorialspoint.com/how-to-change-the-foreground-color-of-text-in-chash-console) <br />
+[Two-Dimensional arrays in C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/multidimensional-arrays)
+[Colouring text in C#](https://www.tutorialspoint.com/how-to-change-the-foreground-color-of-text-in-chash-console) <br />
 [C# this parameter](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/this) <br />
 
 
