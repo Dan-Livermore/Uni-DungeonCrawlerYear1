@@ -103,7 +103,6 @@ namespace Crawler
          */
         public void ProcessUserInput(string input)
         {
-            // Basic validation of input
             // Starts advanced functionality
             if (input == "advanced")
             {
@@ -117,11 +116,16 @@ namespace Crawler
                 Console.WriteLine("Returned to Basic Functionality");
             }
 
-            // Needs to load map before game loop can start
+            // Needs to load a map before game loop can start
             if (input == "load Simple.map")
             {
                 InitializeMap("Simple.map");
                 Console.WriteLine("Loaded Simple.Map");
+            }
+            if (input == "load Advanced.map")
+            {
+                InitializeMap("Advanced.map");
+                Console.WriteLine("Loaded Advanced.Map");
             }
 
             // Starts game
@@ -155,8 +159,11 @@ namespace Crawler
                 // Advanced functionality
                 if (advanced == true && input == "P")
                     action = PlayerActions.PICKUP;
-                if (advanced == true && input == "Spacebar")
+                if (advanced == true && input == "SPACEBAR")
+                {
                     action = PlayerActions.ATTACK;
+                    Console.WriteLine("left hand karate chop");
+                }
             }
         }
 
@@ -180,7 +187,7 @@ namespace Crawler
                 if (action == PlayerActions.NORTH)
                 {
                     // If the next space is a wall or a monster, don't move the player
-                    if (Map[position[0]-1][position[1]] != '#' && Map[position[0] - 1][position[1]] != 'M')
+                    if (Map[position[0] - 1][position[1]] != '#' && Map[position[0] - 1][position[1]] != 'M')
                     {
                         // Places previous tile
                         Map[position[0]][position[1]] = current;
@@ -206,7 +213,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.SOUTH)
                 {
-                    if (Map[position[0]+1][position[1]] != '#' && Map[position[0]+1][position[1]] != 'M')
+                    if (Map[position[0] + 1][position[1]] != '#' && Map[position[0] + 1][position[1]] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[0] += 1;
@@ -225,7 +232,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.WEST)
                 {
-                    if (Map[position[0]][position[1]-1] != '#' && Map[position[0]][position[1]-1] != 'M')
+                    if (Map[position[0]][position[1] - 1] != '#' && Map[position[0]][position[1] - 1] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[1] -= 1;
@@ -244,7 +251,7 @@ namespace Crawler
                 }
                 if (action == PlayerActions.EAST)
                 {
-                    if (Map[position[0]][position[1]+1] != '#' && Map[position[0]][position[1]+1] != 'M')
+                    if (Map[position[0]][position[1] + 1] != '#' && Map[position[0]][position[1] + 1] != 'M')
                     {
                         Map[position[0]][position[1]] = current;
                         position[1] += 1;
@@ -290,6 +297,8 @@ namespace Crawler
                 }
                 // Used to show how many actions it took the player to complete the map, show in PrintMapAdvanced();
                 playermoves += 1;
+                if (advanced == true)
+                    DoMonsterMovement();
             }
             return working;
         }
@@ -367,7 +376,7 @@ namespace Crawler
                     // Print the element with the new colour.
                     Console.ForegroundColor = colour;
                     Console.Write(Map[j][i]);
-                } 
+                }
                 // Starts new line
                 Console.Write("\n");
             }
@@ -382,6 +391,7 @@ namespace Crawler
                 Console.WriteLine("    D - Right           Monsters Defeated: " + playerkills);
                 Console.WriteLine("    P - Collect Coins   Deaths: " + playerdeaths);
                 Console.WriteLine("    SPACE - Attack      ");
+                Console.WriteLine("");
             }
             return true;
         }
@@ -418,7 +428,7 @@ namespace Crawler
             // The local map is stored into the object variables
             // Map becomes the version that gets updated when the player moves and originalMap is a copy of the original.
             originalMap = newMap;
-            Map =  newMap;
+            Map = newMap;
 
             // Updates the object variables so the player is initialized and can move around the map.
             GetPlayerPosition();
@@ -461,7 +471,7 @@ namespace Crawler
         ///<summary>
         ///Finds the position of the player character on the map and updates the position object varaiable.
         /// </summary>
-        public int[] 
+        public int[]
             GetPlayerPosition()
         {
             for (int y = 0; y < Map.Length; y++)
@@ -476,7 +486,7 @@ namespace Crawler
                         Map[y][x] = '@';
                         // Ends the for loops
                         y = Map.Length;
-                        x = Map[Map.Length-1].Length;
+                        x = Map[Map.Length - 1].Length;
                     }
                 }
             }
@@ -491,91 +501,75 @@ namespace Crawler
         public int[]
             GetMonsterPosition()
         {
-                for (int y = 0; y < Map.Length - 1; y++)
+            for (int y = 0; y < Map.Length - 1; y++)
+            {
+                for (int x = 0; x < 31; x++)
                 {
-                    for (int x = 0; x < 31; x++) 
+                    // Searches throughout the map and if its the monster token and if it is there update the global variable.
+                    if (Map[y][x] == 'M')
                     {
-                        // Searches throughout the map and if its the monster token and if it is there update the global variable.
-                        if (Map[y][x] == 'M')
-                        {
-                            monsterposition[0] = y;
-                            monsterposition[1] = x;
-                            y = Map.Length;
-                            x = Map[Map.Length - 1].Length;
-                        }
+                        monsterposition[0] = y;
+                        monsterposition[1] = x;
+                        y = Map.Length;
+                        x = Map[Map.Length - 1].Length;
                     }
                 }
+            }
             return monsterposition;
         }
 
         public bool DoMonsterMovement()
         {
-            // If monster is not defeated, generate a random integer that is used to decide how the monster will move.
-            //if (monsterhealth > 0)
-            //{
-            //    Random random = new Random();
-            //    int randint = random.Next(8);
-
-            //    //// If the player is adjacent to the monster, the monster will attack the player.
-            //    //if (Map[monsterposition[0] - 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0] + 1][monsterposition[1]] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] - 1] == Map[position[0]][position[1]] || Map[monsterposition[0]][monsterposition[1] + 1] == Map[position[0]][position[1]])
-            //    //{
-            //    //    // Each attack removes one point of health from the player and if the player's health is reduced to 0, remove the player from the map.
-            //    //    // Increment the death counter and start the function to end the game in advanced mode.
-            //    //    playerhealth -= 1;
-            //    //    if (playerhealth < 1)
-            //    //    {
-            //    //        Map[position[0]][position[1]] = '-';
-            //    //        Console.WriteLine("Get rekt you died. what a noob");
-            //    //        playerdeaths += 1;
-            //    //        TerminateGame();
-            //    //        randint = 8;
-            //    //    }
-            //    //}
-            //    // The random input decides which direction the monster moves in
-            //    if (randint == 0)
-            //    {
-            //        // As long as it is not a wall or the player the monster can move
-            //        if (Map[monsterposition[0] - 1][monsterposition[1]] != '#' && Map[monsterposition[0] - 1][monsterposition[1]] != '@')
-            //        {
-            //            // the previous position is replaced, the monsters co-ordinates are replaced and the monster token is placed back on the map.
-            //            Map[monsterposition[0]][monsterposition[1]] = current2;
-            //            monsterposition[0] -= 1;
-            //            current2 = Map[monsterposition[0]][monsterposition[1]];
-            //            // If the next position is the goal, end the game
-            //            Map[monsterposition[0]][monsterposition[1]] = 'M';
-            //        }
-            //    }
-            //    if (randint == 1)
-            //    {
-            //        if (Map[monsterposition[0] + 1][monsterposition[1]] != '#' && Map[monsterposition[0] + 1][monsterposition[1]] != '@')
-            //        {
-            //            Map[monsterposition[0]][monsterposition[1]] = current2;
-            //            monsterposition[0] += 1;
-            //            current2 = Map[monsterposition[0]][monsterposition[1]];
-            //            Map[monsterposition[0]][monsterposition[1]] = 'M';
-            //        }
-            //    }
-            //    if (randint == 2)
-            //    {
-            //        if (Map[monsterposition[0]][monsterposition[1] - 1] != '#' && Map[monsterposition[0]][monsterposition[1] - 1] != '@')
-            //        {
-            //            Map[monsterposition[0]][monsterposition[1]] = current2;
-            //            monsterposition[1] -= 1;
-            //            current2 = Map[monsterposition[0]][monsterposition[1]];
-            //            Map[monsterposition[0]][monsterposition[1]] = 'M';
-            //        }
-            //    }
-            //    if (randint == 3)
-            //    {
-            //        if (Map[monsterposition[0]][monsterposition[1] + 1] != '#' && Map[monsterposition[0]][monsterposition[1] + 1] != '@')
-            //        {
-            //            Map[monsterposition[0]][monsterposition[1]] = current2;
-            //            monsterposition[1] += 1;
-            //            current2 = Map[monsterposition[0]][monsterposition[1]];
-            //            Map[monsterposition[0]][monsterposition[1]] = 'M';
-            //        }
-            //    }
-            //}
+            //If monster is not defeated, generate a random integer that is used to decide how the monster will move.
+            if (monsterhealth > 0)
+            {
+                Random random = new Random();
+                int randint = random.Next(8);
+                //The random input decides which direction the monster moves in
+                if (randint == 0)
+                {
+                    //As long as it is not a wall or the player the monster can move
+                    if (Map[monsterposition[0] - 1][monsterposition[1]] != '#' && Map[monsterposition[0] - 1][monsterposition[1]] != '@')
+                    {
+                        //the previous position is replaced, the monsters co - ordinates are replaced and the monster token is placed back on the map.
+                         Map[monsterposition[0]][monsterposition[1]] = current2;
+                        monsterposition[0] -= 1;
+                        current2 = Map[monsterposition[0]][monsterposition[1]];
+                        //If the next position is the goal, end the game
+                       Map[monsterposition[0]][monsterposition[1]] = 'M';
+                    }
+                }
+                if (randint == 1)
+                {
+                    if (Map[monsterposition[0] + 1][monsterposition[1]] != '#' && Map[monsterposition[0] + 1][monsterposition[1]] != '@')
+                    {
+                        Map[monsterposition[0]][monsterposition[1]] = current2;
+                        monsterposition[0] += 1;
+                        current2 = Map[monsterposition[0]][monsterposition[1]];
+                        Map[monsterposition[0]][monsterposition[1]] = 'M';
+                    }
+                }
+                if (randint == 2)
+                {
+                    if (Map[monsterposition[0]][monsterposition[1] - 1] != '#' && Map[monsterposition[0]][monsterposition[1] - 1] != '@')
+                    {
+                        Map[monsterposition[0]][monsterposition[1]] = current2;
+                        monsterposition[1] -= 1;
+                        current2 = Map[monsterposition[0]][monsterposition[1]];
+                        Map[monsterposition[0]][monsterposition[1]] = 'M';
+                    }
+                }
+                if (randint == 3)
+                {
+                    if (Map[monsterposition[0]][monsterposition[1] + 1] != '#' && Map[monsterposition[0]][monsterposition[1] + 1] != '@')
+                    {
+                        Map[monsterposition[0]][monsterposition[1]] = current2;
+                        monsterposition[1] += 1;
+                        current2 = Map[monsterposition[0]][monsterposition[1]];
+                        Map[monsterposition[0]][monsterposition[1]] = 'M';
+                    }
+                }
+            }
             return true;
         }
 
@@ -641,9 +635,9 @@ namespace Crawler
             CMDCrawler crawler = new CMDCrawler();
 
             string input = string.Empty;
-            Console.WriteLine("Welcome to the Commandline Dungeon!" +Environment.NewLine+ 
-                "May your Quest be filled with riches!"+Environment.NewLine);
-            
+            Console.WriteLine("Welcome to the Commandline Dungeon!" + Environment.NewLine +
+                "May your Quest be filled with riches!" + Environment.NewLine);
+
             // Loops through the input and determines when the game should quit
             while (crawler.active && crawler.action != PlayerActions.QUIT)
             {
@@ -652,13 +646,13 @@ namespace Crawler
                 Console.WriteLine(Environment.NewLine);
 
                 crawler.ProcessUserInput(input);
-            
+
                 crawler.Update(crawler.active);
                 crawler.PrintMap();
                 crawler.PrintExtraInfo();
             }
 
-            Console.WriteLine("See you again" +Environment.NewLine+ 
+            Console.WriteLine("See you again" + Environment.NewLine +
                 "In the CMD Dungeon! ");
 
 
