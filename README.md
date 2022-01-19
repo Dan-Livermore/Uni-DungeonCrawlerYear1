@@ -35,7 +35,7 @@ This also enables other features. In this mode: <br />
 - the monsters can move
 - the user can quickly replay the game once they have escaped the dungeon.
 
-The map is also displayed with different colours for each element of the map <br />
+The map is also displayed with different colours for each element of the map. <br />
 ``` @ = Cyan ``` <br />
 ``` X = Green ``` <br />
 ```  - = Grey ``` <br />
@@ -48,7 +48,8 @@ The map is also displayed with different colours for each element of the map <br
 
 Now try to escape the dungeon yourself! <br />
 
-All tests pass.
+All tests pass. 
+
 ![Tests](gif5.gif)
 
 ### Resources used: <br />
