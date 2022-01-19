@@ -53,7 +53,7 @@ All tests pass.
 ![Tests](gif5.gif)
 
 ### Resources used: <br />
-[Two-Dimensional arrays in C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/multidimensional-arrays)
+[Two-Dimensional arrays in C#](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/arrays/multidimensional-arrays) <br />
 [Colouring text in C#](https://www.tutorialspoint.com/how-to-change-the-foreground-color-of-text-in-chash-console) <br />
 [C# this parameter](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/this) <br />
 
