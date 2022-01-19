@@ -1,5 +1,16 @@
 # 2021-COMP1000-CW2
 
+This is the codebase for my functioning dungeon crawler program.
+
+The program is a game on the commandline, where the player journeys through a 2d map, defeats monsters, collects coins and eventually gets to the exit.
+
+
+
+
+
+
+
+
 This is the starting base for your second coursework. 
 
 Use this ReadMe file to document your project by:
