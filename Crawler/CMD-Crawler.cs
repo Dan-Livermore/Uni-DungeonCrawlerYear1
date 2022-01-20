@@ -122,6 +122,11 @@ namespace Crawler
                 InitializeMap("Simple.map");
                 Console.WriteLine("Loaded Simple.Map");
             }
+            if (input == "load Simple2.map")
+            {
+                InitializeMap("Simple2.map");
+                Console.WriteLine("Loaded Simple2.Map");
+            }
             if (input == "load Advanced.map")
             {
                 InitializeMap("Advanced.map");
